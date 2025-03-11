@@ -46,7 +46,7 @@ http://localhost:3000
 
 ### Auth - Login user
 Allows user access to marketplace depending their role
-- Endpoint: `/auth/login`
+- Route: `/auth/login`
 - Type: `POST`
 - Query: N/A
 - Params: N/A
@@ -78,7 +78,7 @@ Allows user access to marketplace depending their role
 
 ### Auth - Register a new user
 Allows user create their account
-- Endpoint: `/auth/register`
+- Route: `/auth/register`
 - Type: `POST`
 - Query: N/A
 - Params: N/A
@@ -115,7 +115,7 @@ Allows user create their account
 
 ### Auth - User status
 Show user main info, you need to be logged in
-- Endpoint: `/auth/GET`
+- Route: `/auth/GET`
 - Type: `POST`
 - Query: N/A
 - Params: N/A
@@ -145,7 +145,7 @@ Show user main info, you need to be logged in
 
 ### Users - Get all users
 Retrieves a list of registered users
-- Endpoint: `/users`
+- Route: `/users`
 - Type: `GET`
 - Query: N/A
 - Params: N/A
@@ -229,7 +229,7 @@ Retrieves a unique user by their id
 
 ### Users - Update user info
 Allow change user's information
-- Endpoint: `/users/:id`
+- Route: `/users/:id`
 - Type: `PUT`
 - Query: N/A
 - Params: `id`
@@ -269,7 +269,7 @@ Allow change user's information
 
 ### Users - Delete a user
 Allows delete an account by their id
-- Endpoint: `/users/:id`
+- Route: `/users/:id`
 - Type: `DELETE`
 - Query: N/A
 - Params: `id`
@@ -555,6 +555,15 @@ Sends a list products ids and quantity to be purchased
 ```
 
 #### Failure
+- Status: `400`
+```json
+{
+    "message": "Insufficient quantity for product with id: 2",
+    "error": "Bad Request",
+    "statusCode": 400
+}
+```
+
 - Status: `401`
 ```json
 {
@@ -562,6 +571,16 @@ Sends a list products ids and quantity to be purchased
     "statusCode": 401
 }
 ```
+
+- Status: `404`
+```json
+{
+    "message": "Product not found, id: 1",
+    "error": "Not Found",
+    "statusCode": 404
+}
+```
+
 
 ### Products - Search Products with filters
 Retrieves a list of products corresponding to the filter applied

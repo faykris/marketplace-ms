@@ -113,7 +113,7 @@ export class ProductsService {
       const product = products.find((p) => p.id === productId);
 
       if (!product) {
-        throw new NotFoundException(`Product not found, id: ${productId} `);
+        throw new NotFoundException(`Product not found, id: ${productId}`);
       }
 
       if (product.quantity < quantity) {
