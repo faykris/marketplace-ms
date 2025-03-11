@@ -581,12 +581,15 @@ Sends a list products ids and quantity to be purchased
 }
 ```
 
-
 ### Products - Search Products with filters
 Retrieves a list of products corresponding to the filter applied
 - Route: `products/search`
 - Type: `GET`
-- Query: `q`, `ownerId`
+- Query: 
+  * `q`: product name or part of this, 
+  * `minPrice`: minimum price value
+  * `maxPrice`: maximum price value
+  * `ownerId`: number of ownwer id
 - Params: N/A
 - Body: N/A
 
@@ -617,57 +620,3 @@ Retrieves a list of products corresponding to the filter applied
     }
 ]
 ```
-
-### Products - Get products from owners
-Retrieves a list of product accoding to a list of owners ids
-- Route: `/products/owners`
-- Type: `GET`
-- Query: `ids` (numbers separated by comma)
-- Params: N/A
-- Body: N/A
-
-#### Success
-- Status: `200`
-
-```json
-[
-    {
-        "id": 2,
-        "sku": "product-fghij",
-        "name": "Product 2",
-        "price": 159,
-        "quantity": 8,
-        "image_url": "https://example-image.com",
-        "createdAt": "2025-03-08T21:49:52.067Z",
-        "updatedAt": "2025-03-08T21:49:52.067Z"
-    },
-    {
-        "id": 3,
-        "sku": "product-klmnop",
-        "name": "Product 3",
-        "price": 29,
-        "quantity": 12,
-        "image_url": "https://example-image.com",
-        "createdAt": "2025-03-08T22:01:48.983Z",
-        "updatedAt": "2025-03-08T22:01:48.983Z"
-    }
-]
-```
-
-#### Failure
-- Status: `401`
-```json
-{
-    "message": "Unauthorized",
-    "statusCode": 401
-}
-```
-
-- Status: `500`
-```json
-{
-    "statusCode": 500,
-    "message": "Internal server error"
-}
-```
-
