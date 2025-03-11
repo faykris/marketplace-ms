@@ -2,97 +2,617 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Marketplace MS
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This microservice was created with Nest JS with the idea to demostrate how a little example of e-commerce works, managing products, users and their roles. Also this can be integrated with websites made with Angular, React, Vue and others frontend technologies.
 
-## Description
+## Features
+- Usage of JWT to create user session with time expiration
+- Implemented Guards validations to avoid unauthorized executions
+- TypeORM in this project allows make queries and migrations to the database
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Previous Requirements
+- Node JS Installed, because this is a JS project and you need to install packages to run it
+- PostgreSQL installed in your computer or a remote access, you'll need to create a database named `marketplace` and copy the URI into .env file
+- Visual Studio Code or any other code editor to see the project and execute this in the terminal
+- Nest CLI instaled (optional)
 
-## Project setup
-
+## Installation
+1. Clone this repository in a specific localtion in your computer
+2. Create a database named `marketplace` through DBeaver, PgAdmin or with command interpreter from PostgreSQL
+3. Create a .env file and add the following variables accoding your database connection
+```dotenv
+DATABASE_URL=postgres://<your-user>:@localhost:5432/marketplace
+NODE_ENV=development
+```
+4. Go to project folder and install packages with the next command:
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
-
+5. Finally, run project with the next commands
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# Run project with NPM
+npm run start:dev
+# Or run project with Nest CLI
+nest start --watch
 ```
 
-## Run tests
-
+## API Usage
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Local server
+http://localhost:3000
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g mau
-$ mau deploy
+### Auth - Login user
+Allows user access to marketplace depending their role
+- Endpoint: `/auth/login`
+- Type: `POST`
+- Query: N/A
+- Params: N/A
+- Body:
+```json
+{
+  "username": "yourusername",
+  "password": "yourpassword"
+}
+```
+#### Success
+- Status: `200`
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...",
+    "id": "1",
+    "role": "seller"
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
 
-## Resources
+### Auth - Register a new user
+Allows user create their account
+- Endpoint: `/auth/register`
+- Type: `POST`
+- Query: N/A
+- Params: N/A
+- Body:
+```json
+{
+    "username": "yourusername",
+    "password": "yourpassword",
+    "role": "buyer"
+}
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+#### Success
+- Status: `201`
+```json
+{
+    "id": "1",
+    "username": "new-buyer",
+    "role": "buyer",
+    "createdAt": "2025-03-10T20:31:49.974Z",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9k..."
+}
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+#### Failure
+- Status: `409`
+```json
+{
+    "message": "Username already exists",
+    "error": "Conflict",
+    "statusCode": 409
+}
+```
 
-## Support
+### Auth - User status
+Show user main info, you need to be logged in
+- Endpoint: `/auth/GET`
+- Type: `POST`
+- Query: N/A
+- Params: N/A
+- Body: N/A
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### Success
+- Status: `200`
+```json
+{
+    "id": "1",
+    "username": "youruser",
+    "role": "seller",
+    "createdAt": "2025-03-08T14:13:10.562Z",
+    "iat": 1741639172,
+    "exp": 1741811972
+}
+```
 
-## Stay in touch
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Users - Get all users
+Retrieves a list of registered users
+- Endpoint: `/users`
+- Type: `GET`
+- Query: N/A
+- Params: N/A
+- Body: N/A
 
-## License
+#### Success
+- Status: `200`
+```json
+[
+    {
+        "id": "1",
+        "username": "user-seller",
+        "password": "$2b$10$cz7xzMu55sy0mGJfs6T...",
+        "role": "seller",
+        "createdAt": "2025-03-08T14:13:10.562Z"
+    },
+    {
+        "id": "2",
+        "username": "user-admin",
+        "password": "$2b$10$boA5AiVVNkxsNZXps//...",
+        "role": "admin",
+        "createdAt": "2025-03-08T19:05:11.385Z"
+    },
+    {
+        "id": "3",
+        "username": "user-buyer",
+        "password": "$2b$10$SDSpqzi/1HL5o2fzS9h...",
+        "role": "buyer",
+        "createdAt": "2025-03-08T19:05:19.409Z"
+    }
+]
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+
+### Users - Get a user
+Retrieves a unique user by their id
+- Route: `/users/:id`
+- Type: `GET`
+- Query: N/A
+- Params: N/A
+- Body: N/A
+
+#### Success
+- Status: `200`
+```json
+{
+    "id": "1",
+    "username": "user-seller",
+    "password": "$2b$10$cz7xzMu55sy0mGJfs6T...",
+    "role": "seller",
+    "createdAt": "2025-03-08T14:13:10.562Z"
+}
+```
+
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+
+- Status: `404`
+```json
+{
+    "message": "User with id 13 not found",
+    "error": "Not Found",
+    "statusCode": 404
+}
+```
+
+
+### Users - Update user info
+Allow change user's information
+- Endpoint: `/users/:id`
+- Type: `PUT`
+- Query: N/A
+- Params: `id`
+- Body: 
+```json
+{
+    "username": "update-username",
+    "password": "update-password"
+}
+```
+
+#### Success
+- Status: `200`
+```json
+{
+    "message": "User updated successfully"
+}
+```
+
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+
+### Users - Delete a user
+Allows delete an account by their id
+- Endpoint: `/users/:id`
+- Type: `DELETE`
+- Query: N/A
+- Params: `id`
+- Body: N/A
+
+#### Success
+- Status: `200`
+```json
+{
+    "message": "User deleted successfully"
+}
+```
+
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+
+### Products - Get all products
+Retrives all stored products
+- Route: `/products`
+- Type: `GET`
+- Query: N/A
+- Params: N/A
+- Body: N/A
+
+#### Success
+- Status: `200`
+```json
+[
+    {
+        "id": 1,
+        "sku": "product-abcde",
+        "name": "Product 1",
+        "price": 150,
+        "quantity": 5,
+        "image_url": "https://example-image.com",
+        "createdAt": "2025-03-08T14:15:51.721Z",
+        "updatedAt": "2025-03-08T18:19:12.772Z",
+        "ownerUsername": "user-seller"
+    },
+    {
+        "id": 2,
+        "sku": "product-fghij",
+        "name": "Product 2",
+        "price": 150,
+        "quantity": 5,
+        "image_url": "https://example-image.com",
+        "createdAt": "2025-03-08T14:15:51.721Z",
+        "updatedAt": "2025-03-08T18:19:12.772Z",
+        "ownerUsername": "user-seller"
+    },
+]
+```
+
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+
+### Products - Create a Product
+Create a new product from a seller
+- Route: `/products`
+- Type: `POST`
+- Query: N/A
+- Params: N/A
+- Body:
+```json
+{
+    "sku": "product-fghij",
+    "name": "Product 2",
+    "price": 150,
+    "quantity": 5,
+    "imageUrl": "https://example-image.com",
+    "ownerId": 1
+}
+```
+
+#### Success
+- Status: `201`
+```json
+{
+    "id": 100,
+    "sku": "product-fghij",
+    "name": "Product 2",
+    "price": 150,
+    "quantity": 5,
+    "image_url": "https://example-image.com",
+    "createdAt": "2025-03-11T02:44:25.494Z",
+    "updatedAt": "2025-03-11T02:44:25.494Z",
+    "owner": {
+        "id": "1",
+        "username": "user-seller",
+        "password": "$2b$10$boA5AiVVNkxsNZXps//...",
+        "role": "seller",
+        "createdAt": "2025-03-08T14:13:10.562Z"
+    }
+}
+```
+
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+
+### Products - Get a Product
+Retrieve info from a product
+- Route: `/products/:id`
+- Type: `GET`
+- Query: N/A
+- Params: `id`
+- Body: N/A
+
+- Status: `200`
+```json
+{
+    "id": 100,
+    "sku": "product-fghij",
+    "name": "Product 2",
+    "price": 150,
+    "quantity": 5,
+    "image_url": "https://example-image.com",
+    "createdAt": "2025-03-11T02:44:25.494Z",
+    "updatedAt": "2025-03-11T02:44:25.494Z",
+}
+```
+
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+
+### Products - Update a Product
+Changes values from a product
+- Route: `/products/:id`
+- Type: `PUT`
+- Query: N/A
+- Params: `id`
+- Body:
+```json
+{
+    "sku": "product-fghij",
+    "name": "Product 2",
+    "price": 155,
+    "quantity": 10,
+    "image_url": "https://example-image.com"
+}
+```
+
+#### Success
+- Status: `200`
+```json
+{
+    "message": "Product updated successfully"
+}
+```
+
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+
+### Products - Delete a product
+Allows delete a product by their id
+- Route: `/products/:id`
+- Type: `DELETE`
+- Query: N/A
+- Params: `id`
+- Body: N/A
+
+#### Success
+- Status: `200`
+```json
+{
+    "message": "Product deleted successfully"
+}
+```
+
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+
+### Products - Buy Products
+Sends a list products ids and quantity to be purchased
+- Route: `/products/buy`
+- Type: `POST`
+- Query: N/A
+- Params: N/A
+- Body:
+```json
+{
+    "items": [
+        {
+            "productId": 2,
+            "quantity": 1
+        },
+        {
+            "productId": 3,
+            "quantity": 2
+        }
+    ]
+}
+```
+
+#### Success
+- Status: `200`
+```json
+{
+    "message": "Products purchased successfully",
+    "products": [
+        {
+            "id": 2,
+            "sku": "product-fghij",
+            "name": "Product 2",
+            "price": 159,
+            "quantity": 8,
+            "image_url": "https://i.postimg.cc/DfxvCJcK/apple-airpods.jpg",
+            "createdAt": "2025-03-08T21:49:52.067Z",
+            "updatedAt": "2025-03-08T21:49:52.067Z"
+        },
+        {
+            "id": 3,
+            "sku": "product-klmnop",
+            "name": "Product 3",
+            "price": 29,
+            "quantity": 12,
+            "image_url": "https://i.postimg.cc/d0GQn55W/apple-black-case.jpg",
+            "createdAt": "2025-03-08T22:01:48.983Z",
+            "updatedAt": "2025-03-08T22:01:48.983Z"
+        }
+    ]
+}
+```
+
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+### Products - Search Products with filters
+Retrieves a list of products corresponding to the filter applied
+- Route: `products/search`
+- Type: `GET`
+- Query: `q`, `ownerId`
+- Params: N/A
+- Body: N/A
+
+#### Success
+- Status: `200`
+
+```json
+[
+    {
+        "id": 2,
+        "sku": "product-fghij",
+        "name": "Product 2",
+        "price": 159,
+        "quantity": 8,
+        "image_url": "https://i.postimg.cc/DfxvCJcK/apple-airpods.jpg",
+        "createdAt": "2025-03-08T21:49:52.067Z",
+        "updatedAt": "2025-03-08T21:49:52.067Z"
+    },
+    {
+        "id": 3,
+        "sku": "product-klmnop",
+        "name": "Product 3",
+        "price": 29,
+        "quantity": 12,
+        "image_url": "https://i.postimg.cc/d0GQn55W/apple-black-case.jpg",
+        "createdAt": "2025-03-08T22:01:48.983Z",
+        "updatedAt": "2025-03-08T22:01:48.983Z"
+    }
+]
+```
+
+### Products - Get products from owners
+Retrieves a list of product accoding to a list of owners ids
+- Route: `/products/owners`
+- Type: `GET`
+- Query: `ids` (numbers separated by comma)
+- Params: N/A
+- Body: N/A
+
+#### Success
+- Status: `200`
+
+```json
+[
+    {
+        "id": 2,
+        "sku": "product-fghij",
+        "name": "Product 2",
+        "price": 159,
+        "quantity": 8,
+        "image_url": "https://i.postimg.cc/DfxvCJcK/apple-airpods.jpg",
+        "createdAt": "2025-03-08T21:49:52.067Z",
+        "updatedAt": "2025-03-08T21:49:52.067Z"
+    },
+    {
+        "id": 3,
+        "sku": "product-klmnop",
+        "name": "Product 3",
+        "price": 29,
+        "quantity": 12,
+        "image_url": "https://i.postimg.cc/d0GQn55W/apple-black-case.jpg",
+        "createdAt": "2025-03-08T22:01:48.983Z",
+        "updatedAt": "2025-03-08T22:01:48.983Z"
+    }
+]
+```
+
+#### Failure
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+
+- Status: `500`
+```json
+{
+    "statusCode": 500,
+    "message": "Internal server error"
+}
+```
+
