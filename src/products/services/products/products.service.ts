@@ -65,10 +65,12 @@ export class ProductsService {
       throw new NotFoundException(`User not found`);
     }
 
+    const { password: _, ...userWithoutPassword } = user;
+
     const newProduct = this.productRepository.create({
       ...productProperties,
       image_url: productProperties.imageUrl,
-      owner: user,
+      owner: userWithoutPassword,
       createdAt: new Date(),
       updatedAt: new Date(),
     });

@@ -329,6 +329,36 @@ Retrives all stored products
 }
 ```
 
+### Products - Get a Product
+Retrieve info from a product
+- Route: `/products/:id`
+- Type: `GET`
+- Query: N/A
+- Params: `id`
+- Body: N/A
+
+- Status: `200`
+```json
+{
+    "id": 100,
+    "sku": "product-fghij",
+    "name": "Product 2",
+    "price": 150,
+    "quantity": 5,
+    "image_url": "https://example-image.com",
+    "createdAt": "2025-03-11T02:44:25.494Z",
+    "updatedAt": "2025-03-11T02:44:25.494Z",
+}
+```
+
+- Status: `401`
+```json
+{
+    "message": "Unauthorized",
+    "statusCode": 401
+}
+```
+
 ### Products - Create a Product
 Create a new product from a seller
 - Route: `/products`
@@ -362,7 +392,6 @@ Create a new product from a seller
     "owner": {
         "id": "1",
         "username": "user-seller",
-        "password": "$2b$10$boA5AiVVNkxsNZXps//...",
         "role": "seller",
         "createdAt": "2025-03-08T14:13:10.562Z"
     }
@@ -370,36 +399,6 @@ Create a new product from a seller
 ```
 
 #### Failure
-- Status: `401`
-```json
-{
-    "message": "Unauthorized",
-    "statusCode": 401
-}
-```
-
-### Products - Get a Product
-Retrieve info from a product
-- Route: `/products/:id`
-- Type: `GET`
-- Query: N/A
-- Params: `id`
-- Body: N/A
-
-- Status: `200`
-```json
-{
-    "id": 100,
-    "sku": "product-fghij",
-    "name": "Product 2",
-    "price": 150,
-    "quantity": 5,
-    "image_url": "https://example-image.com",
-    "createdAt": "2025-03-11T02:44:25.494Z",
-    "updatedAt": "2025-03-11T02:44:25.494Z",
-}
-```
-
 - Status: `401`
 ```json
 {
@@ -546,7 +545,7 @@ Retrieves a list of products corresponding to the filter applied
         "name": "Product 2",
         "price": 159,
         "quantity": 8,
-        "image_url": "https://i.postimg.cc/DfxvCJcK/apple-airpods.jpg",
+        "image_url": "https://example-image.com",
         "createdAt": "2025-03-08T21:49:52.067Z",
         "updatedAt": "2025-03-08T21:49:52.067Z"
     },
@@ -556,7 +555,7 @@ Retrieves a list of products corresponding to the filter applied
         "name": "Product 3",
         "price": 29,
         "quantity": 12,
-        "image_url": "https://i.postimg.cc/d0GQn55W/apple-black-case.jpg",
+        "image_url": "https://example-image.com",
         "createdAt": "2025-03-08T22:01:48.983Z",
         "updatedAt": "2025-03-08T22:01:48.983Z"
     }
@@ -582,7 +581,7 @@ Retrieves a list of product accoding to a list of owners ids
         "name": "Product 2",
         "price": 159,
         "quantity": 8,
-        "image_url": "https://i.postimg.cc/DfxvCJcK/apple-airpods.jpg",
+        "image_url": "https://example-image.com",
         "createdAt": "2025-03-08T21:49:52.067Z",
         "updatedAt": "2025-03-08T21:49:52.067Z"
     },
@@ -592,7 +591,7 @@ Retrieves a list of product accoding to a list of owners ids
         "name": "Product 3",
         "price": 29,
         "quantity": 12,
-        "image_url": "https://i.postimg.cc/d0GQn55W/apple-black-case.jpg",
+        "image_url": "https://example-image.com",
         "createdAt": "2025-03-08T22:01:48.983Z",
         "updatedAt": "2025-03-08T22:01:48.983Z"
     }
