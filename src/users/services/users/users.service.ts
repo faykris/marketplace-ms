@@ -1,5 +1,9 @@
 import * as bcrypt from 'bcrypt';
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/typeorm/entities/User';
 import { Repository } from 'typeorm';
@@ -39,12 +43,18 @@ export class UsersService {
     return this.userRepository.save(newUser);
   }
 
-  updateUser(id: number, userDetails: UpdateUserParams) {
-    return this.userRepository.update({ id }, { ...userDetails });
+  async updateUser(id: number, userDetails: UpdateUserParams): Promise<void> {
+    const result = await this.userRepository.update({ id }, { ...userDetails });
+    if (result.affected === 0) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
   }
 
-  deleteUser(id: number) {
-    return this.userRepository.delete({ id });
+  async deleteUser(id: number): Promise<void> {
+    const result = await this.userRepository.delete({ id });
+    if (result.affected === 0) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
   }
 
   async findByUsername(username: string) {

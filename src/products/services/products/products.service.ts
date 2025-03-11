@@ -78,9 +78,9 @@ export class ProductsService {
     return this.productRepository.save(newProduct);
   }
 
-  updateProduct(id: number, productDetails: UpdateProductParams) {
+  async updateProduct(id: number, productDetails: UpdateProductParams) {
     const { imageUrl, ...productProperties } = productDetails;
-    return this.productRepository.update(
+    const result =  await this.productRepository.update(
       { id },
       {
         ...productProperties,
@@ -88,10 +88,18 @@ export class ProductsService {
         updatedAt: new Date(),
       },
     );
+    if (result.affected === 0) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+    return result;
   }
 
-  deleteProduct(id: number) {
-    return this.productRepository.delete({ id });
+  async deleteProduct(id: number) {
+    const result = await this.productRepository.delete({ id });
+    if (result.affected === 0) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+    return result;
   }
 
   async buyProducts({ items }: BuyProductsParams) {

@@ -258,6 +258,15 @@ Allow change user's information
 }
 ```
 
+- Status: `404`
+```json
+{
+    "message": "User with id 1 not found",
+    "error": "Not Found",
+    "statusCode": 404
+}
+```
+
 ### Users - Delete a user
 Allows delete an account by their id
 - Endpoint: `/users/:id`
@@ -280,6 +289,15 @@ Allows delete an account by their id
 {
     "message": "Unauthorized",
     "statusCode": 401
+}
+```
+
+- Status: `404`
+```json
+{
+    "message": "User with id 1 not found",
+    "error": "Not Found",
+    "statusCode": 404
 }
 ```
 
@@ -441,6 +459,15 @@ Changes values from a product
 }
 ```
 
+- Status: `404`
+```json
+{
+    "message": "Product with id 1 not found",
+    "error": "Not Found",
+    "statusCode": 404
+}
+```
+
 ### Products - Delete a product
 Allows delete a product by their id
 - Route: `/products/:id`
@@ -463,6 +490,15 @@ Allows delete a product by their id
 {
     "message": "Unauthorized",
     "statusCode": 401
+}
+```
+
+- Status: `404`
+```json
+{
+    "message": "Product with id 1 not found",
+    "error": "Not Found",
+    "statusCode": 404
 }
 ```
 
@@ -526,6 +562,7 @@ Sends a list products ids and quantity to be purchased
     "statusCode": 401
 }
 ```
+
 ### Products - Search Products with filters
 Retrieves a list of products corresponding to the filter applied
 - Route: `products/search`
