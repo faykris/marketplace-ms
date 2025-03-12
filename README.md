@@ -4,12 +4,12 @@
 
 # Marketplace MS
 
-This microservice was created with Nest JS with the idea to demostrate how a little example of e-commerce works, managing products, users and their roles. Also this can be integrated with websites made with Angular, React, Vue and others frontend technologies.
+This microservice was created with Nest JS with the idea to demostrate how a little example of e-commerce works, managing products, users and their roles. Also this can be integrated with websites made with Angular, React, Vue and others frontend technologies. Also have time expiration when has logged in 
 
-## Features
-- Usage of JWT to create user session with time expiration
-- Implemented Guards validations to avoid unauthorized executions
-- TypeORM in this project allows make queries and migrations to the database
+
+## JSON Web Tokens (JWT)
+
+This project uses JSON Web Tokens (JWT) for authentication. JWT is a compact, URL-safe token format that securely transmits information between parties. After a user logs in, the server generates a JWT. The client then includes this token in the header of subsequent requests, allowing the server to verify the user's identity without maintaining session state
 
 ## Previous Requirements
 - Node JS Installed, because this is a JS project and you need to install packages to run it
@@ -620,3 +620,6 @@ Retrieves a list of products corresponding to the filter applied
     }
 ]
 ```
+
+## Author
+- Cristian Pinzón - faykris28@gmail.com

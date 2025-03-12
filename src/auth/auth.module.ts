@@ -11,7 +11,7 @@ import { UsersModule } from 'src/users/users.module';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: 'abc123',
+      secret: process.env.JWT_SECRET as string,
       signOptions: { expiresIn: '2d' },
     }),
     UsersModule,
