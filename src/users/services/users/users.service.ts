@@ -15,12 +15,24 @@ export class UsersService {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
-  findUserById(id: number) {
-    return this.userRepository.findOneBy({ id });
+  async findUserById(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+
+    const { password: _, ...userWithoutPassword } = user;
+
+    return userWithoutPassword;
   }
 
-  fetchUsers() {
-    return this.userRepository.find();
+  async fetchUsers() {
+    const users = await this.userRepository.find();
+
+    return users.map(
+      ({ password: _, ...userWithoutPassword }) => userWithoutPassword,
+    );
   }
 
   async createUser(userDetails: CreateUserParams) {
