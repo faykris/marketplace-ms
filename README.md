@@ -4,7 +4,7 @@
 
 # Marketplace MS
 
-This microservice was created with Nest JS with the idea to demostrate how a little example of e-commerce works, managing products, users and their roles. Also this can be integrated with websites made with Angular, React, Vue and others frontend technologies. Also have time expiration when has logged in 
+This microservice was created with Nest JS with the idea to demostrate how a little example of e-commerce works, managing products, users and their roles. Also this can be integrated with websites made with Angular, React, Vue and others frontend technologies. Also have time expiration when has logged in through the next feature.
 
 
 ## JSON Web Tokens (JWT)
