@@ -32,9 +32,7 @@ export class UsersController {
       throw new NotFoundException(`User with id ${id} not found`);
     }
 
-    const { password: _, ...userWithoutPassword } = user;
-
-    return userWithoutPassword;
+    return user;
   }
 
   @Put(':id')
