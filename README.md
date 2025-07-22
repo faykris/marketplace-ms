@@ -623,4 +623,3 @@ Retrieves a list of products corresponding to the filter applied
 
 ## Author
 - Cristian Pinzón - faykris28@gmail.com
-- Implemented in App Runner
